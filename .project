@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>data</name>
+			<type>2</type>
+			<location>/Users/Ryan/Documents/College/Senior Year/Fall 2015/CSC 439/Phase 1/LRUProxy/data</location>
+		</link>
+	</linkedResources>
 </projectDescription>
