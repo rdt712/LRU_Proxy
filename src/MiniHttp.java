@@ -20,18 +20,18 @@ import org.apache.http.impl.client.DefaultHttpClient;
  */
 public class MiniHttp 
 {
-	 HttpClient httpclient;
-	 BufferedReader in;
+	HttpClient httpClient;
+	BufferedReader in;
     
 	public MiniHttp()
 	{
 		in = null;
-		httpclient = new DefaultHttpClient();
+		httpClient = new DefaultHttpClient();
 	}
 	
 	public StringBuffer fetch(String URL)
 	{
-		StringBuffer sb = new StringBuffer("");
+		StringBuffer strBuffer = new StringBuffer("");
 	
 		if (URL != null && URL.trim().length()>0)
 		{
@@ -44,15 +44,15 @@ public class MiniHttp
 			
 			try
 			{
-					HttpGet httpget = new HttpGet(URL);
-					HttpResponse response = httpclient.execute(httpget);
+					HttpGet httpGet = new HttpGet(URL);
+					HttpResponse response = httpClient.execute(httpGet);
 					InputStream is = response.getEntity().getContent();
 					in = new BufferedReader(new InputStreamReader(is));
 
 					String line = "";
 					while ((line = in.readLine()) != null) 
 					{
-						sb.append(line + "\n");
+						strBuffer.append(line + "\n");
 					}
 					in.close();
 			}
@@ -75,7 +75,7 @@ public class MiniHttp
 				}
 			}
 		}
-		return sb;
+		return strBuffer;
 	}
 	
 }

@@ -47,9 +47,9 @@ public class CacheToFile
 	 * This reads the cached object that we retrieved
 	 * and writes it to a file.
 	 * @param url
-	 * @param sb
+	 * @param strBuffer
 	 */
-	public void write(String url, StringBuffer sb)
+	public void write(String url, StringBuffer strBuffer)
 	{
 		try
 		{
@@ -58,8 +58,8 @@ public class CacheToFile
 			BufferedWriter out = new BufferedWriter(new FileWriter(filename, false));
 			// Needed for project
 			// Description was to output cache to screen.
-			System.out.println(sb.toString());
-			out.write(sb.toString());
+			System.out.println(strBuffer.toString());
+			out.write(strBuffer.toString());
 			out.close();
 		}
 		catch (Exception e)

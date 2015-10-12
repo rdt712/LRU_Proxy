@@ -35,19 +35,19 @@ public class CacheList
 	 * Constructor.  The minimum cache size is 1.
 	 * @param directory - cache log directory for logging 
 	 *                    objects removed from cache
-	 * @param maxsize - maximum number of objects to cache
+	 * @param maxSize - maximum number of objects to cache
 	 */
-	public CacheList(String directory, int maxsize)
+	public CacheList(String directory, int maxSize)
 	{
 		log = new CacheLog(directory);
 		linkedList=new LinkedList<String>();
-		if (maxsize<1)
+		if (maxSize<1)
 		{
 			this.maxSize=1;
 		}
 		else
 		{
-			this.maxSize=maxsize;
+			this.maxSize=maxSize;
 		}
 	}
 	
@@ -82,10 +82,6 @@ public class CacheList
 
 		// Newest is always the first.
 		linkedList.addFirst(URL);
-		
-		//System.out.println("Added "+URL);
-		
-		//traverseTest();
 		
 		return removedURL;
 	}
@@ -131,20 +127,6 @@ public class CacheList
 			returnedURL=linkedList.get(i).toString();
 		}
 		return returnedURL;
-	}
-
-	/**
-	 * traverseList
-	 * For testing purposes only.  This displays the 
-	 * linklist of URLs.
-	 */
-	public void traverseTest()
-	{
-		for (int i=0; i<linkedList.size();i++)
-		{
-			System.out.print(linkedList.get(i)+" => ");
-		}
-		System.out.println("NULL");
 	}
 	
 }

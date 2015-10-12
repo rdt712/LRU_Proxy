@@ -17,16 +17,10 @@ public class Proxy
 	
 	private String directory;
 	private boolean windows;
-	private int sleepSeconds;
 	
-	public Proxy(String inDirectory, int maxCacheSize, int sleepSeconds)
+	public Proxy(String inDirectory, int maxCacheSize)
 	{
-		if (sleepSeconds<0)
-		{
-			sleepSeconds=0;
-		}
-		this.sleepSeconds=sleepSeconds;
-		
+
 		if (maxCacheSize<1)
 		{
 			maxCacheSize=1;
@@ -55,7 +49,7 @@ public class Proxy
 				cacheRequest= new CacheRequest(directory);
 				cacheList = new CacheList(directory, maxCacheSize);
 				cacheToFile = new CacheToFile(directory);
-				miniHttp=new MiniHttp();
+				miniHttp = new MiniHttp();
 			
 			}
 			catch (Exception e)
@@ -133,7 +127,7 @@ public class Proxy
 				// I just use this as a timer mechanism
 				try
 				{
-					Thread.sleep(sleepSeconds * 1000);
+					Thread.sleep(1000);
 				}
 				catch (Exception e)
 				{
@@ -168,16 +162,14 @@ public class Proxy
 	
 	public static void main(String args[])
 	{
-		if (args.length!=3)
+		if (args.length==2)
 		{
 			try
 			{
 				String directory=args[0];
 				String temp=args[1];
 				int maxCacheSize=Integer.parseInt(temp);
-				temp=args[2];
-				int sleepSeconds=Integer.parseInt(temp);
-				Proxy proxy=new Proxy(directory, maxCacheSize, sleepSeconds);
+				Proxy proxy=new Proxy(directory, maxCacheSize);
 				proxy.run();
 			}
 			catch (Exception e)
