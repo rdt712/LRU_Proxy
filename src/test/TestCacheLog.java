@@ -1,3 +1,5 @@
+package test;
+
 import org.junit.*;
 
 import static org.junit.Assert.*;
@@ -9,7 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-
+import main.*;
 public class TestCacheLog {
 	
 	CacheLog cacheLog;
