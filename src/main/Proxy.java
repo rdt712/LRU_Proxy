@@ -183,7 +183,6 @@ public class Proxy
 			System.out.println("Pass in the following parameters:");
 			System.out.println("directory where input.txt resides");
 			System.out.println("maximum number of cached web pages (integer, minimum is 1)");
-			System.out.println("number of seconds to sleep between checking for requests (integer, minimum is 0)");
 		}
 	}
 }
