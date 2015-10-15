@@ -1,7 +1,11 @@
-package TestCacheList;
+package test;
 
 import org.junit.*;
+
 import org.junit.Test;
+
+import main.*;
+
 import static org.junit.Assert.*;
 
 public class TestCacheList {
