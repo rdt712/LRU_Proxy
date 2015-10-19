@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.*;
 
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -13,7 +14,7 @@ import main.*;
 
 public class TestCacheToFile 
 {	
-	CacheToFile ctf;
+	private CacheToFile ctf;
 	private String directory;
 	private String url;
 	private StringBuffer strBuffer;
@@ -34,10 +35,6 @@ public class TestCacheToFile
 		{
 			reader = new BufferedReader(new FileReader("./data/input.txt"));
 			file = new File("./test-data/fileName");
-			if (!file.exists())
-			{
-				file.createNewFile();
-			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -50,10 +47,6 @@ public class TestCacheToFile
 		try
 		{
 			reader.close();
-			if (file.exists())
-			{
-				file.delete();
-			}
 		} 
 		catch (IOException e)
 		{
@@ -79,24 +72,6 @@ public class TestCacheToFile
 	} 
 	
 	@Test
-	public void readTest() 
-	{
-		
-		ctf.read(url);
-		
-		try
-		{
-			String line = reader.readLine();
-			String expected = strBuffer.toString();
-			assertTrue(expected.equals(line));
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-	} 
-	
-	@Test
 	public void isCachedTest() 
 	{
 		if(ctf.isCached(url))
@@ -109,8 +84,6 @@ public class TestCacheToFile
 	public void removeTest() 
 	{
 		ctf.remove(url);
-		System.out.println("remove test");
-		//File file = new File("./test-data/fileName");
 		assertFalse(file.exists());
 	} 
 }
