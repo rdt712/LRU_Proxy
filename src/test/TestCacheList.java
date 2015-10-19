@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class TestCacheList {
 	public CacheList testList;
-	public String directory = "C:/Users/coxa11/Desktop";
+	public String directory = "./test-data/";
 	public int maxSize;
 	
 	public String expectedString;
