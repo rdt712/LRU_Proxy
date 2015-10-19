@@ -23,12 +23,12 @@ public class TestCacheLog {
 	
 	@Before
 	public void setup() {
-		cacheLog = new CacheLog("testData\\");
+		cacheLog = new CacheLog("test-data\\");
 		URL = "www.google.com";
 		format = new SimpleDateFormat("EEE MMMM dd HH:mm:ss yyyy");
 		try{
-			writer = new BufferedWriter(new FileWriter("testData\\output.log", false));
-			reader = new BufferedReader(new FileReader("testData\\output.log"));
+			writer = new BufferedWriter(new FileWriter("test-data\\output.log", false));
+			reader = new BufferedReader(new FileReader("test-data\\output.log"));
 		}
 		catch(Exception e){
 			e.printStackTrace();
