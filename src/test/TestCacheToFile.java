@@ -19,12 +19,13 @@ public class TestCacheToFile
 	private StringBuffer strBuffer;
 	private BufferedReader reader;
 	private String str;
+	private File file;
 	
 	@Before
 	public void setup() 
 	{
 		directory = "./test-data/";
-		url = "url";
+		url = "fileName";
 		str = "www.google.com";
 		strBuffer = new StringBuffer(str);
 		ctf = new CacheToFile(directory);
@@ -32,6 +33,11 @@ public class TestCacheToFile
 		try
 		{
 			reader = new BufferedReader(new FileReader("./data/input.txt"));
+			file = new File("./test-data/fileName");
+			if (!file.exists())
+			{
+				file.createNewFile();
+			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -44,6 +50,10 @@ public class TestCacheToFile
 		try
 		{
 			reader.close();
+			if (file.exists())
+			{
+				file.delete();
+			}
 		} 
 		catch (IOException e)
 		{
@@ -71,6 +81,7 @@ public class TestCacheToFile
 	@Test
 	public void readTest() 
 	{
+		
 		ctf.read(url);
 		
 		try
@@ -98,7 +109,8 @@ public class TestCacheToFile
 	public void removeTest() 
 	{
 		ctf.remove(url);
-		File file = new File("./test-data/www.google.com");
+		System.out.println("remove test");
+		//File file = new File("./test-data/fileName");
 		assertFalse(file.exists());
 	} 
 }
