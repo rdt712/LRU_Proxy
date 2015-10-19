@@ -1,44 +1,58 @@
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import main.*;
 
-@RunWith(value=Parameterized.class)
 public class TestCacheRequest {
-	private String expected;
-	private String value;
 	
-	@Parameters
-	public static Collection<Object[]> getTestParameters() {
-		return Arrays.asList(new Object[][] {
-				{"", ""}
-		});
+	private CacheRequest cacheRequest;
+	private String directory;
+	private BufferedReader reader;
+	
+	@Before
+	public void setup() {
+		directory = "./data/";
+		cacheRequest = new CacheRequest(directory);
+		try
+		{
+			reader = new BufferedReader(new FileReader(directory + "input.txt"));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public TestCacheRequest(String expected, String value) {
-		this.expected = expected;
-		this.value = value;
-	}
-
-	@Test
-	public void testCacheRequest() {
-		CacheRequest cacheRequest = new CacheRequest("/");
-		
+	@After
+	public void teardown() {
+		try
+		{
+			reader.close();
+		} 
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void testRead() {
-		CacheRequest cacheRequest = new CacheRequest("/");
-		System.out.println("expected " + expected);
-		assertEquals(expected, cacheRequest.read());
+		try {
+			String line = cacheRequest.read();
+			String expected = reader.readLine();
+			assertTrue(expected.equals(line));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		} 
 	}
 }
