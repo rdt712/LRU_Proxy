@@ -1,0 +1,77 @@
+<project name="LRU_Proxy" basedir="." default="compile" >
+
+ <property file="build.properties" > </property >
+ <property name="bin.dir" location="bin"> </property>
+ <property name="src.dir" location="src"> </property>
+ <property name="src.code.dir" location="src\main"> </property>
+ <property name="src.test.dir" location="src\test"> </property>
+ <property name="lib.dir" location="lib"> </property>
+ <property name="target.report.dir" location="reports"> </property>
+	
+ <!-- The Class-Path for the build is defined here-->
+ <path id="cp" >
+	 <fileset dir="${lib.dir}" includes="*.jar" />
+ </path>
+
+ <!-- The Class-Path for the JUnit Test is defined here.This also includes the compiled classes directory-->
+ <path id="jUnit.cp" >
+	 <fileset dir="${lib.dir}" includes="*.jar" />
+	 <pathelement location="${bin.dir}" />
+ </path>
+
+ <!-- Clean the bin, dist & report folder  -->
+ <target name="clean">
+	 <delete dir="${bin.dir}" />
+	 <delete dir="${target.report.dir}" />
+ </target>
+
+ <!-- Create the bin,dist & report folders for fresh build -->
+ <target name="init" depends="clean">
+	 <mkdir dir="${bin.dir}" />
+	 <mkdir dir="${target.report.dir}" />
+ </target>
+	
+<!-- Compilation of Java Main Files into bin folder -->
+ <target name="compile.java" depends="init">
+	 <javac destdir="bin" debug="true" srcdir="${src.code.dir}" includeantruntime="false">
+		 <classpath refid="cp" />
+	 </javac>
+ </target>
+	
+<!-- Compilation of Java Test Files into bin folder -->
+ <target name="compile.test" depends="compile.java">
+	 <javac destdir="bin" debug="true" srcdir="${src.test.dir}" includeantruntime="false">
+		 <classpath refid="cp" />
+	 </javac>
+ </target>
+
+ <!-- Compilation of Java Files into bin folder -->
+ <target name="compile" depends="compile.test">
+	 <echo >Compiling now... </echo>
+	 <echo >Compilation successful! </echo>
+ </target>
+
+ <!-- 	This task is Used to Unit-Test the Compiled Java Files -->
+ <target name="test" depends="compile">
+	 <junit printsummary="yes" fork="true" haltonfailure="yes" haltonerror="yes" showoutput="yes">
+		 <classpath refid="jUnit.cp" />
+		 <formatter type="xml" />
+	 	 <batchtest todir="${target.report.dir}">
+	 	     <fileset dir="${src.dir}">
+	 	          <include name="**/*TestCacheSuite*.java" />
+	 	     </fileset>
+	 	 </batchtest>
+	 </junit>
+ </target>
+	
+<target name="report" depends="test">
+	<mkdir dir="${target.report.dir}/html" />
+	<junitreport todir="${target.report.dir}">
+		<fileset dir="${target.report.dir}">
+			<include name="TEST-*.xml"/>
+		</fileset>
+		<report todir="${target.report.dir}/html"/>
+	</junitreport>
+</target>
+
+</project>
