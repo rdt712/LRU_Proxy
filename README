@@ -18,8 +18,7 @@ Team #1 - LRUProxy README
 			-?????
 	-To enable Ant’s JUnit task, copy the file junit.jar to the lib folder of the Ant. Ant will add the JAR file to the class path for your build.
 
-4.) View GitHub Project Repository
-	-Go to the following link: https://github.com/rdt712/LRU_Proxy to view the repository for our project. You can view the additions and deletions that we made throughout the project and clone the repository to your machine.
+4.) Download GitHub for Windows
 
 5.) Setup Eclipse
 	-Place your default workspace wherever you want all of your documents to be saved to. Make sure this is a location that you remember and can access easily.
@@ -35,7 +34,15 @@ Team #1 - LRUProxy README
 	-Click the finish button and the project will be imported into Eclipse.
 
 7.) Add External Libraries
-	-
-
-8.) Setup Environment Variables
-	-
+	-Go to the following link: http://www.java2s.com/Code/Jar/h/Downloadhttpclient411jar.htm to download the httpclient JAR file that you will need for the project.
+	-Go to the following link: http://www.java2s.com/Code/Jar/o/Downloadorgapachecommonslogging111jar.htm to download the commons-logging JAR file you will need for the project.
+	-Go to the following link: http://www.java2s.com/Code/Jar/h/Downloadhttpcore41jar.htm to download the http-core JAR file you will need for the project.
+	-Go to the following link: http://www.java2s.com/Code/Jar/j/Downloadjunit49b2jar.htm to download the JUnit JAR file that you will need for the project.
+	-Save all of these JAR files in a location where you can find them easily.
+	-Right click on the project that you have imported in Package Explorer and click on "Properties."
+	-Click on "Java Build Path" and click on the "Libraries" tab on the top.
+	-Click on the "Add External JARs" button on the right.
+	-Locate the JAR files that you downloaded in the previous steps, select the JARs, and click the open button.
+	-Click the apply button and then the OK button to import the external JARs into the project.
+	
+8.) Running Ant
