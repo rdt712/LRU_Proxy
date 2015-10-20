@@ -1,0 +1,41 @@
+Team #1 - LRUProxy README
+
+1.) Install JDK
+	-Go to the following link: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html to download Java SE Development Kit 8. 
+	-Download the version that is associated with your machine. For example, with Windows 7, you would download the version titled “Windows x64.” Save it somewhere where you will be able to find it later. 
+	-Run the .exe file in order to install the JDK onto your system. Keep all of the default options for the install.
+
+2.) Install Eclipse Mars
+	-Go to the following link: http://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/mars/1/eclipse-java-mars-1-win32-x86_64.zip to download Eclipse Mars for Windows x64 machines.
+	-Run the .exe file in order to install Eclipse Mars onto your system. Keep all of the default options for the install.
+
+3.) Install Ant
+	-Go to the following link: http://ant.apache.org/bindownload.cgi to download Ant. Download the .zip archive with version 1.9.6 of Ant.
+	-Unzip the zip distribution file to a local directory (the Ant directory).
+	-Edit your PATH environment variable to include the bin folder of the Ant directory. 
+		-Go to control panel -> system -> advanced system settings -> environment variables. 
+		-From there, you can add the environment variables that you need.
+			-?????
+	-To enable Ant’s JUnit task, copy the file junit.jar to the lib folder of the Ant. Ant will add the JAR file to the class path for your build.
+
+4.) View GitHub Project Repository
+	-Go to the following link: https://github.com/rdt712/LRU_Proxy to view the repository for our project. You can view the additions and deletions that we made throughout the project and clone the repository to your machine.
+
+5.) Setup Eclipse
+	-Place your default workspace wherever you want all of your documents to be saved to. Make sure this is a location that you remember and can access easily.
+
+6.) Cloning the Repository in Eclipse
+	-Right click in your Package Explorer and select “Import”.
+	-Git is automatically installed with Eclipse Mars. Click the arrow next to Git and select “Projects From Git.” Click the next button.
+	-Select “Clone URI” and click the next button.
+	-In the field titled “URI” in the location box, paste in the follow URI: https://github.com/rdt712/LRU_Proxy.git. Click the next button.
+	-Leave the master branch selected on the next screen and hit the next button.
+	-Choose the location that you want the repository to be saved to on your machine. You can leave this as the default or choose a new location.
+	-Under Wizard for project import, select “Import as general project” and click the next button.
+	-Click the finish button and the project will be imported into Eclipse.
+
+7.) Add External Libraries
+	-
+
+8.) Setup Environment Variables
+	-
