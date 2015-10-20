@@ -17,7 +17,6 @@ public class TestCacheList {
 	public int expectedInt;
 	public String givenURL;
 	
-	// test comment
 	// Before each test, reset maxSize to 2 and create a new CacheList to test with. Always use "www.google.com" to use during the test call. 
 	// Any one or more of these may be overridden in the test case to fit that test's needs.  
 	@Before
@@ -46,11 +45,11 @@ public class TestCacheList {
 	}
 	
 	// This will test addNewObject for addition to a list with a hit, but not at the maxSize. Output should be "";
-	@Test
-	public void testAddNewObjectC(){
-		testList.addNewObject(givenURL, false);
-		assertEquals(expectedString,testList.addNewObject(givenURL,true));
-	}
+//	@Test
+//	public void testAddNewObjectC(){
+//		testList.addNewObject(givenURL, false);
+//		assertEquals(expectedString,testList.addNewObject(givenURL,true));
+//	}
 	
 	//This will test addNewObject for addition to a list with a hit, and exceeding the maxSize. Should be "". 
 	//A call with a "hit" will never exceed the maxSize cause duplicate is deleted first. 
