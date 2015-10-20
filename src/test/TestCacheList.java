@@ -45,11 +45,11 @@ public class TestCacheList {
 	}
 	
 	// This will test addNewObject for addition to a list with a hit, but not at the maxSize. Output should be "";
-//	@Test
-//	public void testAddNewObjectC(){
-//		testList.addNewObject(givenURL, false);
-//		assertEquals(expectedString,testList.addNewObject(givenURL,true));
-//	}
+	@Test
+	public void testAddNewObjectC(){
+		testList.addNewObject(givenURL, false);
+		assertEquals(expectedString,testList.addNewObject(givenURL,true));
+	}
 	
 	//This will test addNewObject for addition to a list with a hit, and exceeding the maxSize. Should be "". 
 	//A call with a "hit" will never exceed the maxSize cause duplicate is deleted first. 

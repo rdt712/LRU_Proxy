@@ -7,6 +7,34 @@
  <property name="src.test.dir" location="src\test"> </property>
  <property name="lib.dir" location="lib"> </property>
  <property name="target.report.dir" location="reports"> </property>
+
+<!-- Macros needed for pulling github repository -->
+<macrodef name = "git">
+    <attribute name = "command" />
+    <attribute name = "dir" default = "" />
+    <element name = "args" optional = "true" />
+    <sequential>
+        <echo message = "git @{command}" />
+        <exec executable = "git" dir = "@{dir}">
+            <arg value = "@{command}" />
+            <args/>
+        </exec>
+    </sequential>
+</macrodef>
+	
+<macrodef name = "git-clone-pull">
+    <attribute name = "repository" />
+    <attribute name = "dest" />
+    <sequential>
+        <git command = "clone">
+            <args>
+                <arg value = "@{repository}" />
+                <arg value = "@{dest}" />
+            </args>
+        </git>
+        <git command = "pull" dir = "@{dest}" />
+    </sequential>
+</macrodef>
 	
  <!-- The Class-Path for the build is defined here-->
  <path id="cp" >
@@ -18,7 +46,7 @@
 	 <fileset dir="${lib.dir}" includes="*.jar" />
 	 <pathelement location="${bin.dir}" />
  </path>
-
+	
  <!-- Clean the bin, dist & report folder  -->
  <target name="clean">
 	 <delete dir="${bin.dir}" />
@@ -30,9 +58,14 @@
 	 <mkdir dir="${bin.dir}" />
 	 <mkdir dir="${target.report.dir}" />
  </target>
+
+<!-- Checkout the repository and pull into current project -->
+<target name="checkout.repository" depends="init">
+	<git-clone-pull repository="https://github.com/rdt712/LRU_Proxy" dest="." />
+</target>
 	
 <!-- Compilation of Java Main Files into bin folder -->
- <target name="compile.java" depends="init">
+ <target name="compile.java" depends="checkout.repository">
 	 <javac destdir="bin" debug="true" srcdir="${src.code.dir}" includeantruntime="false">
 		 <classpath refid="cp" />
 	 </javac>
