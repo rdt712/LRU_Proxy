@@ -30,9 +30,9 @@
 	-Run the installer with the recommended settings.
 	-Edit your environment variables to include the bin and cmd folders of the git directory.
 		-Go to control panel -> system and security -> system -> advanced system settings -> environment variables.
-		-Edit the user varible PATH that you created in the last section and add 2 new paths after the first one. (Seperate all paths with a semicolon like so: <PATH>;<PATH>;<PATH> )
+		-Edit the user variable PATH that you created in the last section and add 2 new paths after the first one. (Seperate all paths with a semicolon like so: <PATH>;<PATH>;<PATH> )
 		-The two paths should look like "C:\Users\<YOUR USERNAME>\AppData\Local\GitHub\PortableGit_<LONG SEQUENCE OF NUMBERS\LETTERS>\bin" and
-			"C:\Users\<YOUR USERNAME>\AppData\Local\GitHub\PortableGit_<LONG SEQUENCE OF NUMBERS\LETTERS>\cmd" respectivly.
+			"C:\Users\<YOUR USERNAME>\AppData\Local\GitHub\PortableGit_<LONG SEQUENCE OF NUMBERS\LETTERS>\cmd" respectively.
 		-Click OK, click Apply, and exit out of the control panel.
 
 5.) Cloning the Repository in Eclipse
@@ -58,7 +58,7 @@
 	-Click the apply button and then the OK button to import the external JARs into the project.
 	
 7.) Running Ant
-	-To run the ANT build file on the project, navigate File Exploror to the LRU_Proxy directory.
+	-To run the ANT build file on the project, navigate File Explorer to the LRU_Proxy directory.
 	-Shift + Right Click in the directory and select "Open command window here"
 	-Run "ant report" in this terminal (or any other target such as "compile", "test", "checkout.repository", etc.)
 	-You can also redirect the terminal output into a .txt file by running "ant report -> ant_report.txt"
