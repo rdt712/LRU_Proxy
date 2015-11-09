@@ -1,5 +1,8 @@
 package main;
 import java.io.File;
+import java.io.IOException;
+import java.net.*;
+import java.util.Scanner;
 
 /**
  * Proxy
@@ -18,6 +21,7 @@ public class Proxy
 	
 	private String directory;
 	private boolean windows;
+	private int req_num = 0;
 	
 	public Proxy(String inDirectory, int maxCacheSize)
 	{
@@ -69,6 +73,33 @@ public class Proxy
 				System.out.println("ERROR: input.txt file not found in specified directory.");
 			}
 		}
+	}
+	
+	public void httpGet(int port){
+		String url="";
+		do
+		{
+			try{
+				ServerSocket serverSocket = new ServerSocket(port);
+				url=cacheRequest.read();
+				if(url.trim().length()>0){
+					new Socket("localhost", port);
+					serverSocket.accept();
+					System.out.println(url);
+					serverSocket.close();
+				}
+			}
+			catch (IOException e) {
+				System.out.println("Exception caught while opening file, trying to listen on port "+port+" or listening for a connection");
+				System.out.println(e.getMessage());
+			}
+			
+			//Send a log request with this number: req_num ++;
+		
+			//newThread thread = server.new newThread(clientSocket, reader);
+			//thread.start();
+			
+		} while (url.trim().length()>0);
 	}
 	
 	public void run()
@@ -165,13 +196,16 @@ public class Proxy
 	{
 		if (args.length==2)
 		{
+			Scanner scanner = new Scanner(System.in);
 			try
 			{
 				String directory=args[0];
 				String temp=args[1];
 				int maxCacheSize=Integer.parseInt(temp);
 				Proxy proxy=new Proxy(directory, maxCacheSize);
-				proxy.run();
+				System.out.println("Enter a valid port number to listen on: ");
+				int port = scanner.nextInt();
+				proxy.httpGet(port);
 			}
 			catch (Exception e)
 			{
@@ -186,4 +220,3 @@ public class Proxy
 		}
 	}
 }
-
