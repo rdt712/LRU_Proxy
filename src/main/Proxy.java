@@ -76,21 +76,17 @@ public class Proxy
 	}
 	
 	public void httpGet(int port){
-		String url="";
-		do
+		//Enter an infinite loop to listen for connections
+		for(;;)
 		{
-			try{
+			try{ //Open a server socket to listen on
 				ServerSocket serverSocket = new ServerSocket(port);
-				url=cacheRequest.read();
-				if(url.trim().length()>0){
-					new Socket("localhost", port);
-					serverSocket.accept();
-					System.out.println(url);
-					serverSocket.close();
-				}
+				Socket client = serverSocket.accept(); //Accept client connection
+				serverSocket.close();  //Close server socket
+				System.out.println(client.getPort());
 			}
 			catch (IOException e) {
-				System.out.println("Exception caught while opening file, trying to listen on port "+port+" or listening for a connection");
+				System.out.println("Exception caught while trying to listen on port "+port+" or while listening for a connection");
 				System.out.println(e.getMessage());
 			}
 			
@@ -99,7 +95,7 @@ public class Proxy
 			//newThread thread = server.new newThread(clientSocket, reader);
 			//thread.start();
 			
-		} while (url.trim().length()>0);
+		}
 	}
 	
 	public void run()
