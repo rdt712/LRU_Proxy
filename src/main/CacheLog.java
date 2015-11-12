@@ -102,13 +102,13 @@ public class CacheLog
 		try {
 			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			out = new BufferedWriter(new FileWriter(req_log, true));
-			out.write(req_num);
+			out.write(req_num+returnString);
 			String input = in.readLine();
 			if (input != null)
-				out.write(input);
+				out.write(input+returnString);
 			Calendar cal = Calendar.getInstance();
 			String dateString=format.format(cal.getTime());
-			out.write(dateString + "\n");
+			out.write(dateString + returnString+returnString);
 			in.close();
 			out.close();
 		}

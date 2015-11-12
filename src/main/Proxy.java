@@ -1,6 +1,10 @@
 package main;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.*;
 import java.util.Scanner;
 
@@ -82,8 +86,12 @@ public class Proxy
 			try{ //Open a server socket to listen on
 				ServerSocket serverSocket = new ServerSocket(port);
 				Socket client = serverSocket.accept(); //Accept client connection
+				//
 				serverSocket.close();  //Close server socket
-				System.out.println(client.getPort());
+				req_num ++;
+				cacheLog.requestLog(client, req_num);
+				//BufferedReader socketReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+	            //System.out.println(socketReader.readLine());
 			}
 			catch (IOException e) {
 				System.out.println("Exception caught while trying to listen on port "+port+" or while listening for a connection");
