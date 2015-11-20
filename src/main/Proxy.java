@@ -22,7 +22,6 @@ import java.util.Scanner;
 public class Proxy 
 {	
 	private CacheLog cacheLog;
-	private CacheRequest cacheRequest;
 	private CacheList cacheList;
 	private MiniHttp miniHttp;
 	private CacheToFile cacheToFile;
@@ -59,7 +58,6 @@ public class Proxy
 			{
 			
 				cacheLog = new CacheLog(directory);
-				cacheRequest= new CacheRequest(directory);
 				cacheList = new CacheList(directory, maxCacheSize);
 				cacheToFile = new CacheToFile(directory);
 				miniHttp = new MiniHttp();
