@@ -1,10 +1,14 @@
 package main;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.*;
 import java.util.Scanner;
 
@@ -49,7 +53,7 @@ public class Proxy
 			directory=directory+"/";
 		}
 		
-		if (isValidDirectory() && isInputFilePresent())
+		if (isValidDirectory())
 		{
 			try
 			{
@@ -68,7 +72,7 @@ public class Proxy
 		}
 		else
 		{
-			if (! isValidDirectory())
+			if (!isValidDirectory())
 			{
 				System.out.println("ERROR: "+directory+" is not a valid directory.");
 			}
@@ -79,99 +83,80 @@ public class Proxy
 		}
 	}
 	
-	public void httpGet(int port){
+	public void httpGet(int port) throws IOException{
 		//Enter an infinite loop to listen for connections
-		for(;;)
+		ServerSocket serverSocket = new ServerSocket(port);
+		while(true)
 		{
 			try{ //Open a server socket to listen on
-				ServerSocket serverSocket = new ServerSocket(port);
 				Socket client = serverSocket.accept(); //Accept client connection
-				//
-				serverSocket.close();  //Close server socket
 				req_num ++;
-				cacheLog.requestLog(client, req_num);
-				//BufferedReader socketReader = new BufferedReader(new InputStreamReader(client.getInputStream()));
-	            //System.out.println(socketReader.readLine());
+		        final BufferedReader from_client = new BufferedReader(new InputStreamReader(client.getInputStream()));
+		        final OutputStreamWriter to_client= new OutputStreamWriter(client.getOutputStream());
+				String url = cacheLog.requestLog(from_client, req_num);
+				if(url != null && !url.startsWith("ERROR")){
+					HTTPHandler thread = this.new HTTPHandler(req_num, url, to_client);
+					thread.start();
+				}
+				else
+					req_num--;
+				Thread.sleep(200);
+				
 			}
-			catch (IOException e) {
+			catch (Exception e) {
 				System.out.println("Exception caught while trying to listen on port "+port+" or while listening for a connection");
 				System.out.println(e.getMessage());
-			}
-			
-			//Send a log request with this number: req_num ++;
-		
-			//newThread thread = server.new newThread(clientSocket, reader);
-			//thread.start();
-			
+			}			
 		}
 	}
 	
-	public void run()
+	private class HTTPHandler extends Thread
 	{
-		// A normal proxy will remain running
-		// and waiting for requests
-		// However we are simulated a proxy that
-		// reads a set number of requests and the
-		// stops.  So, we'll loop through the
-		// file and stop when we reach the end.
-		String url="";
-		do
+		
+		int req_num;
+		String url;
+		OutputStreamWriter to_client;
+		
+		HTTPHandler(int req_num, String url, OutputStreamWriter to_client)
 		{
-			// Step 1: read request from file.
-			url=cacheRequest.read();
-			
-			// If we have one, proceed.
-			if (url.trim().length()>0)
+			this.req_num = req_num;
+			this.url = url;
+			this.to_client = to_client;
+		}
+		
+		public void run()
+		{
+			boolean hit=cacheToFile.isCached(url);
+			if (hit)
 			{
-				// Step 2: Check to see if URL is cached
-				//         Log this in the cache log.
-				boolean hit=cacheToFile.isCached(url);
-				if (hit)
-				{
-					cacheLog.logHit(url);
-				}
-				else
-				{
-					cacheLog.logMiss(url);
-				}
-
-				// Step 3: Based on hit/miss, add to LRU
-				// cache list.  This logs a message if 
-				// an old cached object is deleted 				
-				String removedURL=cacheList.addNewObject(url, hit);
-				if (removedURL.trim().length()>0)
-				{
-					//webCache.removeCache(removedURL);
-					// physically removed the cached file
-					cacheToFile.remove(removedURL);
-				}
-
-				// Step 4: If hit, send data to output
-				//         If miss, pull data and save it
-				if (hit)
-				{
-					// display cached file to System.out
-					cacheToFile.read(url);
-				}
-				else
-				{
-					StringBuffer data=miniHttp.fetch(url);
-					cacheToFile.write(url, data);
-				}
-				
-				// wait a second before next read
-				// I just use this as a timer mechanism
-				try
-				{
-					Thread.sleep(1000);
-				}
-				catch (Exception e)
-				{
-					e.printStackTrace();
-				}
+				cacheLog.logHit(url);
 			}
-		} while (url.trim().length()>0);
+			else
+			{
+				cacheLog.logMiss(url);
+			}
+			String removedURL=cacheList.addNewObject(url, hit);
+			if (removedURL.trim().length()>0)
+			{
+				//webCache.removeCache(removedURL);
+				// physically removed the cached file
+				cacheToFile.remove(removedURL);
+			}
 
+			// Step 4: If hit, send data to output
+			//         If miss, pull data and save it
+			if (hit)
+			{
+				// display cached file to System.out
+				cacheToFile.read(url, to_client);
+			}
+			else
+			{
+				StringBuffer data=miniHttp.fetch(url);
+				cacheToFile.write(url, data, to_client);
+				cacheToFile.read(url, to_client);
+			}			
+		}		
 	}
 	
 	private boolean isValidDirectory()
@@ -179,17 +164,6 @@ public class Proxy
 		boolean returnValue=false;
 		File file = new File(directory);
 		if (file.exists() && file.isDirectory())
-		{
-			returnValue=true;
-		}
-		return returnValue;
-	}
-	
-	private boolean isInputFilePresent()
-	{
-		boolean returnValue=false;
-		File inFile = new File(directory+"input.txt");
-		if (inFile.exists())
 		{
 			returnValue=true;
 		}

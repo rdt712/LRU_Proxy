@@ -59,7 +59,7 @@ public class MiniHttp
 			}
 			catch (Exception e)
 			{
-				e.printStackTrace();
+				System.out.println("MiniHttp: Bad GET");
 			}
 			finally
 			{

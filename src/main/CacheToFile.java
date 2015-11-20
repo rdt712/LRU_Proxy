@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 /**
@@ -50,21 +51,19 @@ public class CacheToFile
 	 * @param url
 	 * @param strBuffer
 	 */
-	public void write(String url, StringBuffer strBuffer)
+	public void write(String url, StringBuffer strBuffer, OutputStreamWriter to_client)
 	{
 		try
 		{
 			String cachedFile=generateFilename(url);
 			String filename=directory+cachedFile;
-			BufferedWriter out = new BufferedWriter(new FileWriter(filename, false));
-			// Needed for project
-			// Description was to output cache to screen.
-			System.out.println(strBuffer.toString());
-			out.write(strBuffer.toString());
-			out.close();
+			BufferedWriter to_file = new BufferedWriter(new FileWriter(filename, false));
+			to_file.write(strBuffer.toString());
+			to_file.close();
 		}
 		catch (Exception e)
 		{
+			System.out.println("Invalid URL: CacheLog.write");
 			e.printStackTrace();
 		}
 	}
@@ -74,32 +73,25 @@ public class CacheToFile
 	 * And writes it to System.out.
 	 * @param url
 	 */
-	public void read(String url)
+	public void read(String url, OutputStreamWriter to_client)
 	{
-		try
-		{
-			String cachedFile=generateFilename(url);
+		
+		try {
+        	String cachedFile=generateFilename(url);
 			String filename=directory+cachedFile;
 			BufferedReader in = new BufferedReader(new FileReader(filename));
-			
-			// Where to send this?
-			OutputStreamWriter ostream;
-			ostream = new OutputStreamWriter(System.out);
-			
-			String line=in.readLine();
-			while(line!=null)
-			{
-				ostream.write(line);
-				line=in.readLine();
-			}
-			
-			ostream.close();
-			in.close();
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+        	String line = in.readLine();
+            while(line != null){
+                to_client.write(line);
+                line = in.readLine();
+            }
+            in.close();
+            to_client.close();
+        }
+		catch (Exception e) {
+            System.out.println("File not found!");
+            e.printStackTrace();
+        }
 
 	}
 	/**
@@ -123,6 +115,6 @@ public class CacheToFile
 	 */
 	private String generateFilename(String url)
 	{
-		return url.replaceAll("/", ".");
+		return url.replaceAll("/", ".").replaceAll("\\?", ".");
 	}
 }

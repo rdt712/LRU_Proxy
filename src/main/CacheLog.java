@@ -97,23 +97,28 @@ public class CacheLog
 		}
 	}
 	
-	public void requestLog(Socket client, int req_num)
+	public String requestLog(BufferedReader from_client, int req_num)
 	{
 		try {
-			in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+			in = from_client;
 			out = new BufferedWriter(new FileWriter(req_log, true));
-			out.write(req_num+returnString);
-			String input = in.readLine();
-			if (input != null)
-				out.write(input+returnString);
-			Calendar cal = Calendar.getInstance();
-			String dateString=format.format(cal.getTime());
-			out.write(dateString + returnString+returnString);
-			in.close();
+			String url = in.readLine();
+			if (url != null){
+		        if(url.startsWith("CONNECT"))
+					return "ERROR";
+				out.write(req_num+returnString);
+				out.write(url+returnString);
+				Calendar cal = Calendar.getInstance();
+				String dateString=format.format(cal.getTime());
+				out.write(dateString + returnString+returnString);
+				url = url.substring(11, url.indexOf(" HTTP", 11));
+			}
 			out.close();
+			return url;
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		return "";
 	}
 }

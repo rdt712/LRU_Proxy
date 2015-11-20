@@ -3,12 +3,11 @@ package test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import org.junit.*;
-
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import main.*;
 
@@ -21,6 +20,7 @@ public class TestCacheToFile
 	private BufferedReader reader;
 	private String str;
 	private File file;
+	private OutputStreamWriter to_client;
 	
 	@Before
 	public void setup() 
@@ -30,6 +30,7 @@ public class TestCacheToFile
 		str = "www.google.com";
 		strBuffer = new StringBuffer(str);
 		ctf = new CacheToFile(directory);
+		to_client = new OutputStreamWriter(System.out);
 		
 		try
 		{
@@ -57,7 +58,7 @@ public class TestCacheToFile
 	@Test
 	public void writeTest() 
 	{
-		ctf.write(url, strBuffer);
+		ctf.write(url, strBuffer, to_client);
 		
 		try
 		{
