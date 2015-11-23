@@ -73,13 +73,16 @@ public class CacheToFile
 	 * And writes it to System.out.
 	 * @param url
 	 */
-	public void read(String url, OutputStreamWriter to_client)
+	public void read(String url, OutputStreamWriter to_client, int req_num)
 	{
 		
 		try {
         	String cachedFile=generateFilename(url);
 			String filename=directory+cachedFile;
+			String logfile=directory+"resp_"+req_num+".log";
 			BufferedReader in = new BufferedReader(new FileReader(filename));
+			BufferedWriter to_log = new BufferedWriter(new FileWriter(logfile, false));
+			to_log.write(in.readLine());
         	String line = in.readLine();
             while(line != null){
                 to_client.write(line);
@@ -87,9 +90,10 @@ public class CacheToFile
             }
             in.close();
             to_client.close();
+            to_log.close();
         }
 		catch (Exception e) {
-            System.out.println("File not found!");
+            System.out.println("File not found!"+url);
             e.printStackTrace();
         }
 
@@ -113,7 +117,7 @@ public class CacheToFile
 	 * @param url - URL to be cached
 	 * @return filename for cached URL
 	 */
-	private String generateFilename(String url)
+	public String generateFilename(String url)
 	{
 		return url.replaceAll("/", ".").replaceAll("\\?", ".");
 	}
