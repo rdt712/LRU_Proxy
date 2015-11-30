@@ -191,6 +191,7 @@ public class Proxy
 			{
 				System.out.println("ERROR: could not process parameters");
 			}
+			scanner.close();
 		}
 		else
 		{

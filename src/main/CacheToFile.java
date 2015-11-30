@@ -51,7 +51,7 @@ public class CacheToFile
 	 * @param url
 	 * @param strBuffer
 	 */
-	public void write(String url, StringBuffer strBuffer, OutputStreamWriter to_client)
+	public void write(String url, StringBuffer strBuffer)
 	{
 		try
 		{
