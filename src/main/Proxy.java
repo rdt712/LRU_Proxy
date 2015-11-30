@@ -1,14 +1,9 @@
 package main;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.*;
 import java.util.Scanner;
 
@@ -124,6 +119,7 @@ public class Proxy
 		
 		public void run()
 		{
+			//Check if request is cached, remove any old cached files
 			boolean hit=cacheToFile.isCached(url);
 			if (hit)
 			{
@@ -136,7 +132,6 @@ public class Proxy
 			String removedURL=cacheList.addNewObject(url, hit);
 			if (removedURL.trim().length()>0)
 			{
-				//webCache.removeCache(removedURL);
 				// physically removed the cached file
 				cacheToFile.remove(removedURL);
 			}
@@ -154,7 +149,7 @@ public class Proxy
 				StringBuffer data=miniHttp.fetch(url);
 				if(data.length() != 0) //If data is empty, drop this request
 				{
-					cacheToFile.write(url, data, to_client);
+					cacheToFile.write(url, data);
 					cacheToFile.read(url, to_client, req_num);
 				}
 			}			

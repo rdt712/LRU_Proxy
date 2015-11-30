@@ -97,13 +97,12 @@ public class MiniHttp
 			}
 		
 		try
-		{
+		{		//Check if a cached site is still valid (30 minute expiration)
 				HttpGet httpGet = new HttpGet(URL);
 				HttpResponse response = httpClient.execute(httpGet);
 				BufferedReader in = new BufferedReader(new FileReader(log_file));
 				String log_resp = in.readLine();
 				in.close();
-				//EntityUtils.consume(response.getEntity());
 				Pattern pattern = Pattern.compile("(?:[01]\\d|2[0123]):(?:[012345]\\d):(?:[012345]\\d)");
 				Matcher matcher = null;
 				if(log_resp != null){

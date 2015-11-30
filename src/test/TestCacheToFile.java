@@ -58,7 +58,7 @@ public class TestCacheToFile
 	@Test
 	public void writeTest() 
 	{
-		ctf.write(url, strBuffer, to_client);
+		ctf.write(url, strBuffer);
 		
 		try
 		{
