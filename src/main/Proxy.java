@@ -22,7 +22,6 @@ import java.util.Scanner;
 public class Proxy 
 {	
 	private CacheLog cacheLog;
-	private CacheRequest cacheRequest;
 	private CacheList cacheList;
 	private MiniHttp miniHttp;
 	private CacheToFile cacheToFile;
@@ -99,7 +98,7 @@ public class Proxy
 				}
 				else
 					req_num--;
-				Thread.sleep(200);
+				Thread.sleep(300);
 				
 			}
 			catch (Exception e) {
@@ -144,7 +143,8 @@ public class Proxy
 
 			// Step 4: If hit, send data to output
 			//         If miss, pull data and save it
-			if (hit && miniHttp.validate(url, directory+cacheToFile.generateFilename(url)))
+			String log_file = directory+url.replaceAll("/", ".").replaceAll("\\?", ".");
+			if (hit && miniHttp.validate(url, log_file))
 			{
 				// display cached file to System.out
 				cacheToFile.read(url, to_client, req_num);
@@ -152,8 +152,11 @@ public class Proxy
 			else
 			{
 				StringBuffer data=miniHttp.fetch(url);
-				cacheToFile.write(url, data, to_client);
-				cacheToFile.read(url, to_client, req_num);
+				if(data.length() != 0) //If data is empty, drop this request
+				{
+					cacheToFile.write(url, data, to_client);
+					cacheToFile.read(url, to_client, req_num);
+				}
 			}			
 		}		
 	}

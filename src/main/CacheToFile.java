@@ -79,9 +79,9 @@ public class CacheToFile
 		try {
         	String cachedFile=generateFilename(url);
 			String filename=directory+cachedFile;
-			String logfile=directory+"resp_"+req_num+".log";
+			String logFile=directory+"resp_"+req_num+".log";
 			BufferedReader in = new BufferedReader(new FileReader(filename));
-			BufferedWriter to_log = new BufferedWriter(new FileWriter(logfile, false));
+			BufferedWriter to_log = new BufferedWriter(new FileWriter(logFile, false));
 			to_log.write(in.readLine());
         	String line = in.readLine();
             while(line != null){
@@ -117,7 +117,7 @@ public class CacheToFile
 	 * @param url - URL to be cached
 	 * @return filename for cached URL
 	 */
-	public String generateFilename(String url)
+	private String generateFilename(String url)
 	{
 		return url.replaceAll("/", ".").replaceAll("\\?", ".");
 	}

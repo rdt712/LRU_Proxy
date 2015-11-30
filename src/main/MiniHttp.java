@@ -3,11 +3,14 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.HttpResponse;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 /**
  * MiniHttp
@@ -48,21 +51,21 @@ public class MiniHttp
 			{
 					HttpGet httpGet = new HttpGet(URL);
 					HttpResponse response = httpClient.execute(httpGet);
-					//System.out.println(response.toString());
-					InputStream is = response.getEntity().getContent();
-					in = new BufferedReader(new InputStreamReader(is));
-
+					InputStream iStream = response.getEntity().getContent();
+					in = new BufferedReader(new InputStreamReader(iStream));
 					String line = "";
 					strBuffer.append(response+"\n");
-					while ((line = in.readLine()) != null) 
+					while ((line = in.readLine()) != null)
 					{
 						strBuffer.append(line + "\n");
 					}
 					in.close();
+					EntityUtils.consume(response.getEntity());
 			}
 			catch (Exception e)
 			{
-				System.out.println("MiniHttp: Bad GET");
+				//e.printStackTrace();
+				System.out.println("MiniHttp: Bad GET Request: dropping");
 			}
 			finally
 			{
@@ -100,18 +103,28 @@ public class MiniHttp
 				BufferedReader in = new BufferedReader(new FileReader(log_file));
 				String log_resp = in.readLine();
 				in.close();
+				//EntityUtils.consume(response.getEntity());
+				Pattern pattern = Pattern.compile("(?:[01]\\d|2[0123]):(?:[012345]\\d):(?:[012345]\\d)");
+				Matcher matcher = null;
 				if(log_resp != null){
-					int log_hr = Integer.parseInt(log_resp.substring(40, 42));
-					int resp_hr = Integer.parseInt(response.toString().substring(40, 42));
-					int log_min = Integer.parseInt(log_resp.substring(43, 45));
-					int resp_min = Integer.parseInt(response.toString().substring(43, 45));
-					if(log_hr == resp_hr && resp_min - log_min < 30)
-						return true;
-					else if(resp_hr-1 == log_hr && resp_min-log_min+60 < 30)
-						return true;
-					else
-						return false;
+					matcher = pattern.matcher(log_resp);}
+				if(matcher.find()){
+					int log_hr = Integer.parseInt(matcher.group(0).substring(0, 2));
+					int log_min = Integer.parseInt(matcher.group(0).substring(3, 5));
+					matcher = pattern.matcher(response.toString());
+					EntityUtils.consume(response.getEntity()); //response is not used after this, so consume it now
+					if(matcher.find()){
+						int resp_hr = Integer.parseInt(matcher.group(0).substring(0, 2));
+						int resp_min = Integer.parseInt(matcher.group(0).substring(3, 5));
+						if(log_hr == resp_hr && resp_min - log_min < 30)
+							return true;
+						else if(resp_hr-1 == log_hr && resp_min-log_min+60 < 30)
+							return true;
+						else
+							return false;
+					}
 				}
+				EntityUtils.consume(response.getEntity()); //Consume response before continuing
 		}
 		catch (Exception e)
 		{

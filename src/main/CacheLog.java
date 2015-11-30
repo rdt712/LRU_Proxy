@@ -104,8 +104,10 @@ public class CacheLog
 			out = new BufferedWriter(new FileWriter(req_log, true));
 			String url = in.readLine();
 			if (url != null){
-		        if(url.startsWith("CONNECT"))
+		        if(url.startsWith("CONNECT")){
+		        	System.out.println("Sorry, this server does not accept HTTPS connections!");
 					return "ERROR";
+		        }
 				out.write(req_num+returnString);
 				out.write(url+returnString);
 				Calendar cal = Calendar.getInstance();
@@ -119,6 +121,7 @@ public class CacheLog
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("NULL url!");
 		return "";
 	}
 }
